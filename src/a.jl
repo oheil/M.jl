@@ -1,3 +1,7 @@
+module A
+export Astruct
 
-struct A
+struct Astruct
+end
+
 end

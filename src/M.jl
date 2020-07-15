@@ -1,13 +1,8 @@
 module M
 
-#include("a.jl")
-include("b.jl")
-include("c.jl")
+include("d.jl")
+using .D
 
-function d()
-    a=A()
-    b(a)
-    c(a)
-end
+dfunc()
 
 end

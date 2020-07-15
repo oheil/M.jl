@@ -1,4 +1,10 @@
-include("a.jl")
+module B
+export bfunc
 
-function b(::A)
+include("a.jl")
+using .A
+
+function bfunc(::Astruct)
+end
+
 end
