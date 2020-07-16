@@ -1,7 +1,7 @@
 module M
 
 include("d.jl")
-#using .D
+using .D
 
 dfunc()
 

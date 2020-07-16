@@ -1,10 +1,10 @@
-#module B
-#export bfunc
+module B
+export bfunc
 
 #include("a.jl")
-#using ..A
+using ..A
 
 function bfunc(::Astruct)
 end
 
-#end
+end

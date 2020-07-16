@@ -1,14 +1,14 @@
-#module D
-#export dfunc
+module D
+export dfunc
 
 include("a.jl")
-#using .A
+using .A
 
 include("b.jl")
-#using .B
+using .B
 
 include("c.jl")
-#using .C
+using .C
 
 function dfunc()
     a=Astruct()
@@ -16,4 +16,4 @@ function dfunc()
     cfunc(a)
 end
 
-#end
+end
