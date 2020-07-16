@@ -1,8 +1,8 @@
 module C
 export cfunc
 
-include("a.jl")
-using .A
+#include("a.jl")
+using ..A
 
 function cfunc(::Astruct)
 end
