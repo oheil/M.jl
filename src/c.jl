@@ -1,10 +1,10 @@
-module C
-export cfunc
+#module C
+#export cfunc
 
 #include("a.jl")
-using ..A
+#using ..A
 
 function cfunc(::Astruct)
 end
 
-end
+#end
