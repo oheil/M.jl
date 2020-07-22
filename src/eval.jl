@@ -65,6 +65,14 @@ function eval_interpolate(a_ef::Array{Ef,1})
     return r
 end
 
+function eval_invokelatest(a_ef::Array{Ef,1})
+    r=0
+    for ef in a_ef
+        r += Base.invokelatest(ef.f1,3,5)
+    end
+    return r
+end
+
 function eval_f1(a_ef::Array{Ef,1})
     r=0
     for ef in a_ef
@@ -131,3 +139,5 @@ a_ef=[ M.Ef() for i in 1:1000 ]
 #7
 @btime sum( [ M.f(3,5) for i in 1:1000 ] )
 
+#8
+@btime M.eval_invokelatest($a_ef)
