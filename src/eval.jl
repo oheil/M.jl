@@ -11,8 +11,8 @@ mutable struct Ef
     f3::Function
     function Ef()
         e = :(a + b)
-        f1 = Base.eval( :( (a,b)->$e ) )
-        f2 = Core.eval( M , :( (a,b)->$e ) )
+        f1 = Base.eval( :( (a::Int,b::Int)->$e ) )
+        f2 = Core.eval( M , :( (a::Int,b::Int)->$e ) )
         f3 = (a,b)->a+b
         new(e,f1,f2,f3)
     end
@@ -65,10 +65,18 @@ function eval_interpolate(a_ef::Array{Ef,1})
     return r
 end
 
-function eval_invokelatest(a_ef::Array{Ef,1})
+function eval_invokelatest(@nospecialize(a_ef::Array{Ef,1}))
     r=0
     for ef in a_ef
         r += Base.invokelatest(ef.f1,3,5)
+    end
+    return r
+end
+
+function eval_applylatest(@nospecialize(a_ef::Array{Ef,1}))
+    r=0
+    for ef in a_ef
+        r += Core._apply_latest(ef.f1,3,5)
     end
     return r
 end
@@ -141,3 +149,6 @@ a_ef=[ M.Ef() for i in 1:1000 ]
 
 #8
 @btime M.eval_invokelatest($a_ef)
+
+#8
+@btime M.eval_applylatest($a_ef)
