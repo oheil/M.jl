@@ -4,17 +4,21 @@ using BenchmarkTools
 
 module M
 
+using GeneralizedGenerated
+
 mutable struct Ef
     e::Expr
     f1::Function
     f2::Function
     f3::Function
+    f4
     function Ef()
         e = :(a + b)
         f1 = Base.eval( :( (a::Int,b::Int)->$e ) )
         f2 = Core.eval( M , :( (a::Int,b::Int)->$e ) )
         f3 = (a,b)->a+b
-        new(e,f1,f2,f3)
+        f4 = mk_function( :(  (a, b) -> $e ) )
+        new(e,f1,f2,f3,f4)
     end
 end
 
@@ -114,6 +118,17 @@ function eval_f3(a_ef::Array{Ef,1})
     return r
 end
 
+function eval_f4(a_ef::Array{Ef,1})
+    r=0
+    for ef in a_ef
+        try
+            r += ef.f4(3,5)
+        catch e
+        end
+    end
+    return r
+end
+
 function f(a,b)
     try
         a+b
@@ -152,3 +167,7 @@ a_ef=[ M.Ef() for i in 1:1000 ]
 
 #8
 @btime M.eval_applylatest($a_ef)
+
+#9
+@btime M.eval_f4($a_ef)
+
